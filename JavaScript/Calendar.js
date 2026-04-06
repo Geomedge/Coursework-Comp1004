@@ -2,10 +2,6 @@ let now, year, month, currentDay;
 //var eventList = []; //Stores all events so that they can be plotted on Calendar
 var eventList;
 
-//Very Important ID's for calender
-const CLIENT_ID = '156010263408-su8hhqgtsb08bim4jjdn0vnbt5i6tvee.apps.googleusercontent.com';
-const API_KEY = 'AIzaSyDOtxpMgrkCHNBaHOz-i9lx1TixS2SS0rc';
-
 // Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
 
