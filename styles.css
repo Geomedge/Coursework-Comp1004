@@ -1,0 +1,211 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    background-color: #fff;
+}
+
+body.dark-mode {
+    background-color: #222;
+    color: #fff;
+}
+
+img{
+    padding-top:5px;
+    width:150px;
+    display:block;
+    margin:auto;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 2px;
+    font-size: 32px;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 2px;
+    font-size: 24px;
+    padding:1px;
+    margin:0px;
+}
+
+p {
+    margin:2px;
+    font-family:'Segoe UI';
+}
+
+hr {
+    width:95%;
+    border-radius:2px;
+}
+
+button {
+    padding: 20px 20px;
+    width:200px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin: 20px auto;
+    display: block;
+}
+
+/* Login and Sign Out Buttons */
+#button_div {
+    padding:2px;
+    margin: auto;
+    width:50%;
+    display:flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#authorise_button {    
+    background-color: #4CAF50;
+    color: white;
+}
+
+#signout_button {
+    background-color: #ed0707;
+    color: white;
+}
+
+#darkModeButton {
+    background-color: #DDD;
+    color: #222;
+}
+
+#darkModeButton.dark-mode {
+    background-color: #111;
+    color: #FFF;
+}
+
+/* Event Boxes */
+#eventBox {
+    padding:2px;
+    margin: auto;
+    width:75%;
+    display:flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#eventBox p{
+    padding-left:2px;
+}
+
+.event {
+    display:none;
+    background-color: #DDD;
+    width:33%;
+    border-radius: 10px;   
+}
+
+.event.dark-mode {
+    background-color: #333;
+}
+
+#content {
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+}
+
+#content.dark-mode {
+    color: #fff;
+}
+
+
+/* CALENDAR STUFF */
+.calendar {
+display: grid;
+grid-template-columns: repeat(7, 1fr);
+gap: 7px;
+max-width: 1000px;
+margin: 5px auto;
+background-color: #fff;
+padding: 10px;
+border-radius: 8px;
+}
+.day-header {
+background-color: #333;
+color: #fff;
+padding: 10px 0;
+text-align: center;
+font-weight: bold;
+border-radius: 4px;
+}
+.day {
+min-height: 80px;
+background-color: #e9e9e9;
+padding: 5px;
+border-radius: 4px;
+}
+
+.date {
+    font-family: 'Arial';
+    font-weight: 700;
+}
+
+
+.calendar, .day-header, .day{
+    transition: background 0.3s, color 0.3s;
+}
+
+.calendar.dark-mode {
+    background-color:#111;
+}
+.day-header.dark-mode {
+    background-color: #444;
+    color: #FFF;
+}
+.day.dark-mode {
+    background-color: #333;
+}
+
+
+
+
+
+
+
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+/* Bigger Popup Box */
+.popup-content {
+    background: #222;
+    color: #FFF;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: left;
+    max-width: 800px;
+    width: 90%;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    max-height: 90vh; 
+    overflow-y: auto;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+}
