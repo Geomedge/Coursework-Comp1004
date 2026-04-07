@@ -2,6 +2,12 @@ let now, year, month, currentDay;
 //var eventList = []; //Stores all events so that they can be plotted on Calendar
 var eventList;
 
+//API key and Client ID
+require('dotenv').config();
+const CLIENT_ID = process.env.CLIENT_ID;
+const API_KEY = process.env.API_KEY;
+
+
 // Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
 
