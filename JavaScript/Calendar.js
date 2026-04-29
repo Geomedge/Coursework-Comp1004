@@ -2,11 +2,9 @@ let now, year, month, currentDay;
 //var eventList = []; //Stores all events so that they can be plotted on Calendar
 var eventList;
 
-//API key and Client ID
-require('dotenv').config();
-const CLIENT_ID = process.env.CLIENT_ID;
-const API_KEY = process.env.API_KEY;
-
+//Very Important ID's for calender - Put API key and Client ID here
+const CLIENT_ID = 0;
+const API_KEY = 0;
 
 // Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
@@ -99,7 +97,7 @@ function handleSignoutClick() {
 	}
 }
 
-function openEventMenu(event, e) {
+function openEventMenu(event, e) { //This is for the popup
 	//Formatting text
 	title = "Event Title: " + event.name;
 	duration = "Event Duration: " + event.duration + " Hours";
@@ -121,32 +119,59 @@ function hidePopup() {
 
 // This function adds the events to the calendar
 function updateCalEvents(year, month) {
-	const data = JSON.parse(eventList);
-	const events = data.filter(item => {
-		const dateStr = item.startDate;
-		const part = dateStr.split('-');
-		const itemMonth = Number(part[1])
-		const itemYear = Number(part[2].toString().trim())
-		return itemMonth === month && itemYear === year;
-	})
+	try{
+		const data = JSON.parse(eventList);
+	
+		const events = data.filter(item => {
+			const dateStr = item.startDate;
+			const part = dateStr.split('-');
+			const itemMonth = Number(part[1])
+			const itemYear = Number(part[2].toString().trim())
+			return itemMonth === month && itemYear === year;
+		})
 
-	for (let i = 0; i < events.length; i++) {
-		let childElement = document.getElementById(events[i].startDate);
-		if (childElement) { //Makes sure that if something goes wrong the calendar is still visable
-			let parentDay = childElement.parentElement;
-			parentDay.style.backgroundColor = "#4169E1";
+		for (let i = 0; i < events.length; i++) {
+			let childElement = document.getElementById(events[i].startDate);
+			if (childElement) { //Makes sure that if the date is invalid the calendar still renders
+				let parentDay = childElement.parentElement;
+				parentDay.style.backgroundColor = "#4169E1";
 
-			parentDay.style.cursor = "pointer";
-			parentDay.onclick = function(e) {
-            	openEventMenu(events[i], e);
-			};
+				parentDay.style.cursor = "pointer";
+				parentDay.onclick = function(e) {
+					openEventMenu(events[i], e);
+				};
+			}
+			else {
+				console.log(`Error: Could not find an element with ID "${events[i].startDate}"`);
+			}
 		}
-		else {
-			console.log(`Error: Could not find an element with ID "${events[i].startDate}"`);
-    	}
 	}
-	
-	
+	catch{
+		const data = eventList;
+			const events = data.filter(item => {
+			const dateStr = item.startDate;
+			const part = dateStr.split('-');
+			const itemMonth = Number(part[1])
+			const itemYear = Number(part[2].toString().trim())
+			return itemMonth === month && itemYear === year;
+		})
+
+		for (let i = 0; i < events.length; i++) {
+			let childElement = document.getElementById(events[i].startDate);
+			if (childElement) { //Makes sure that if the date is invalid the calendar still renders
+				let parentDay = childElement.parentElement;
+				parentDay.style.backgroundColor = "#4169E1";
+
+				parentDay.style.cursor = "pointer";
+				parentDay.onclick = function(e) {
+					openEventMenu(events[i], e);
+				};
+			}
+			else {
+				console.log(`Error: Could not find an element with ID "${events[i].startDate}"`);
+			}
+		}
+	}
 }
 
 
@@ -250,7 +275,7 @@ async function listUpcomingEvents() {
 		document.getElementById(title).innerText = "Event : " + "---" //eventNames[i]; - Add back for demo
 		document.getElementById(duration).innerText = "Duration : " + durations[i] + " Hours";
 		document.getElementById(startDate).innerText = "Start Date : " +  startDates[i];
-		document.getElementById(endDate).innerText = "Start Date : " +  endDates[i];
+		document.getElementById(endDate).innerText = "End Date : " +  endDates[i];
 		
 		const box = "box" + i
 		if (urgency[i] < 24) {
@@ -274,6 +299,8 @@ async function listUpcomingEvents() {
 		})
 		eventList = JSON.stringify(eventJson, null, 2);
 	}
+	
+
 	year = now.getFullYear();
 	month = now.getMonth() + 1; // 0-11
 	updateCalEvents(year, month);
@@ -303,7 +330,7 @@ function calendar(year, month) {
 	//Works out the first day and how many days in a month
 	const firstDay = new Date(year, month, 0);
 	const startingDay = firstDay.getDay();
-	const daysInMonth = new Date(yeair, month + 1, 0).getDate();
+	const daysInMonth = new Date(year, month + 1, 0).getDate();
 
 
 	for (let i = 0; i < startingDay; i++) {
@@ -381,19 +408,112 @@ function currentDate() {
 }
 
 
+function loadCal(eventList){
+	const urgency = []; //Urgency states the colour of boxes
+	//Finalised Variables to use in data
+	const eventNames = [];
+	const durations = [];
+	const startDates = [];
+	const endDates = [];
+
+	//Translating JSON
+	eventList.forEach(event => {
+		eventNames.push(event.name);
+		durations.push(event.duration);
+		startDates.push(event.startDate);
+		endDates.push(event.endDate);
+	});
+
+	// In this section use the variables : eventNames[a], durations[a], startDates[a], endDates[a]
+	// Where a = index of event.
+
+	// Loads the html elements for the 3 event boxes.
+	for (let i = 0; i < 3; i++) {
+		const title = "event" + i + "Title";
+		const duration = "event" + i + "Duration";
+		const startDate = "event" + i + "Start";
+		const endDate = "event" + i + "End";
+
+		document.getElementById(title).innerText = "Event : " + "---" //eventNames[i]; - Add back for demo
+		document.getElementById(duration).innerText = "Duration : " + durations[i] + " Hours";
+		document.getElementById(startDate).innerText = "Start Date : " +  startDates[i];
+		document.getElementById(endDate).innerText = "End Date : " +  endDates[i];
+
+		//Urgency Calculation
+		const now = new Date();
+		const diff = startDates[i] - now; //Time to next event
+		const hoursleft = diff / (1000 * 3600);
+		urgency.push(hoursleft)
+		
+		const box = "box" + i
+		if (urgency[i] < 24) {
+			const div = document.getElementById(box);
+			div.style.backgroundColor = 'red';
+		}
+		else {
+			const div = document.getElementById(box);
+			div.style.backgroundColor = 'green';
+		}
+	}
+
+	var items = document.getElementsByClassName('event')
+		for (var i=0; i < items.length; i++) {
+			items[i].style.display = 'block';
+	}
+
+	now = new Date();
+	year = now.getFullYear();
+	month = now.getMonth() + 1; // 0-11
+	updateCalEvents(year, month);
+}
+
+
+function importEvent(){ //Import event from .json files
+	const jsonFileInput = document.getElementById('jsonFileInput');
+	jsonFileInput.click();
+
+	jsonFileInput.addEventListener('change', () => {
+    	const file = jsonFileInput.files[0];
+    	if (file) {
+      		const reader = new FileReader();
+      		reader.onload = (e) => {
+        try {
+        	const jsonData = JSON.parse(e.target.result);
+			eventList = jsonData;
+			console.log(eventList)
+
+			loadCal(eventList);
+        } 
+		catch (err) {
+        	alert('Provided JSON file is invalid!');
+        }
+      };
+      reader.readAsText(file);
+    }
+  });
+}
+
 
 function exportEvent(number){
-	var numberlog = "Exporting box " + number
-	console.log(numberlog)
-	//const blob = new Blob([eventList], { type: 'application/json' });  //Use this to check the full json file
-	const parsed = JSON.parse(eventList);
-	const jsonString = JSON.stringify(parsed[number]);
-	const blob = new Blob([jsonString], { type: 'application/json' });
-	//const blob = new Blob([JSON.stringify([eventList[0]])], { type: 'application/json' });
+	let blob;
+	if (number == -1) {
+		//Export All Events
+		blob = new Blob([eventList], { type: 'application/json' });  //Use this to check the full json file
+		var fileName = "Full_Event_List.json";
+	}
+	else{
+		//Export Selected Events
+		var numberlog = "Exporting box " + number
+		console.log(numberlog)
+		const parsed = JSON.parse(eventList);
+		const jsonString = JSON.stringify(parsed[number]);
+		blob = new Blob([jsonString], { type: 'application/json' });
+		var fileName = "Event " + (number + 1) + " Export" + ".json";
+	}
+	
 	const url = URL.createObjectURL(blob);
 	const a = document.createElement('a');
 	a.href = url;
-	var fileName = "Event " + (number + 1) + " Export" + ".json";
 	a.download = fileName;
 	document.body.appendChild(a);
 	a.click();

@@ -1,4 +1,0 @@
-Client ID = 156010263408-su8hhqgtsb08bim4jjdn0vnbt5i6tvee.apps.googleusercontent.com
-Client Secret = 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
-
-API key = AIzaSyDOtxpMgrkCHNBaHOz-i9lx1TixS2SS0rc

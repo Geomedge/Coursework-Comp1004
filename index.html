@@ -18,6 +18,8 @@
 			<button id="authorise_button" onclick="handleAuthClick()">Authorise Login</button>
 			<button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
 			<button id="darkModeButton" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+			<button id="darkModeButton" onclick="importEvent()">Upload Calendar Json File</button>
+			<input type="file" id="jsonFileInput" accept=".json" style="display:none" />
 		</div>
 
     	<pre id="content" style="white-space: pre-wrap;"></pre>
@@ -68,11 +70,13 @@
 
 	<h2 id="date"></h2>
 	<div id="button_div">
-		<button onclick="buttonDate(0)">←</button>
-		<button onclick="buttonDate(1)">→</button>
+		<button id="darkModeButton" onclick="buttonDate(0)">←</button>
+		<button id="darkModeButton" onclick="buttonDate(1)">→</button>
 	</div>
 	<div class="calendar" id="calendar"></div>
 	
+	<button id="darkModeButton" onclick="exportEvent(-1)">Export All Events</button> <!-- -1 means all -->
+
 	<br><br><br><br><br><br><br><br><br><br>
 	</body>
 	<header>
