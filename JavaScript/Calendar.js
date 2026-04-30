@@ -279,7 +279,7 @@ async function listUpcomingEvents() {
 		const startDate = "event" + i + "Start";
 		const endDate = "event" + i + "End";
 
-		document.getElementById(title).innerText = "Event : " + "---" //eventNames[i]; - Add back for demo
+		document.getElementById(title).innerText = "Event : " + eventNames[i];
 		document.getElementById(duration).innerText = "Duration : " + durations[i] + " Hours";
 		document.getElementById(startDate).innerText = "Start Date : " +  startDates[i];
 		document.getElementById(endDate).innerText = "End Date : " +  endDates[i];
