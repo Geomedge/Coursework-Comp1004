@@ -97,14 +97,14 @@ function handleSignoutClick() {
 	}
 }
 
-function openEventMenu(event, e) { //This is for the popup
-	//Formatting text
+function openEventMenu(event) { //This is for the popup
+	//Text Formatting for individual sections
 	title = "Event Title: " + event.name;
 	duration = "Event Duration: " + event.duration + " Hours";
 	startDate = "Event Start Date: " + event.startDate;
 	endDate = "Event End Date: " + event.endDate;
 
-
+	//Changes the popup elements to add required information
 	const menu = document.getElementById('eventMenu');
 	document.getElementById('popupTitle').innerText = title;
 	document.getElementById('popupDuration').innerText = duration;
@@ -119,6 +119,13 @@ function hidePopup() {
 
 // This function adds the events to the calendar
 function updateCalEvents(year, month) {
+	/* 
+	*  Try catch due to the loading of JSON file
+	*  If the calendar is loaded with Google Calendar it will need to be parsed
+	*  If the calendar is loaded with JSON file it doesn't need to parsed 
+	*  Has to be like this overwise it will throw error
+	*/
+
 	try{
 		const data = JSON.parse(eventList);
 	
@@ -138,7 +145,7 @@ function updateCalEvents(year, month) {
 
 				parentDay.style.cursor = "pointer";
 				parentDay.onclick = function(e) {
-					openEventMenu(events[i], e);
+					openEventMenu(events[i]);
 				};
 			}
 			else {
@@ -164,7 +171,7 @@ function updateCalEvents(year, month) {
 
 				parentDay.style.cursor = "pointer";
 				parentDay.onclick = function(e) {
-					openEventMenu(events[i], e);
+					openEventMenu(events[i]);
 				};
 			}
 			else {
@@ -373,6 +380,7 @@ function buttonDate(direction) {
 		}
 		currentDay = 0;
 	}
+	console.log(month)
 	calendar(year, month, currentDay)
 	setTimeout(() => {
     	updateCalEvents(year, (month+1));
@@ -388,7 +396,7 @@ function currentDate() {
 	calendar(year, month, currentDay)
 	}
 
-
+	//Shuffles through all elements toggling dark mode
 	function toggleDarkMode() {
 	const elements = ["darkModeButton", "content"]
 	const classElements = ["calendar", "day-header", "day", "event"]
@@ -468,7 +476,7 @@ function loadCal(eventList){
 }
 
 
-function importEvent(){ //Import event from .json files
+function importEvent(){ //Import event from JSON file
 	const jsonFileInput = document.getElementById('jsonFileInput');
 	jsonFileInput.click();
 
@@ -481,7 +489,8 @@ function importEvent(){ //Import event from .json files
         	const jsonData = JSON.parse(e.target.result);
 			eventList = jsonData;
 			console.log(eventList)
-
+			
+			//Loads Calendar with JSON file contents
 			loadCal(eventList);
         } 
 		catch (err) {
@@ -511,12 +520,15 @@ function exportEvent(number){
 		var fileName = "Event " + (number + 1) + " Export" + ".json";
 	}
 	
+	//Prepares the file for download
 	const url = URL.createObjectURL(blob);
 	const a = document.createElement('a');
 	a.href = url;
 	a.download = fileName;
 	document.body.appendChild(a);
 	a.click();
+	
+	//Removes element after download
 	document.body.removeChild(a);
 	URL.revokeObjectURL(url);
 }

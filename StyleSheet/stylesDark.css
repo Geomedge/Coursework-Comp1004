@@ -1,0 +1,28 @@
+body.dark-mode {
+    background-color: #222;
+    color: #fff;
+}
+
+#darkModeButton.dark-mode {
+    background-color: #111;
+    color: #FFF;
+}
+
+.event.dark-mode {
+    background-color: #333;
+}
+
+#content.dark-mode {
+    color: #fff;
+}
+
+.calendar.dark-mode {
+    background-color:#111;
+}
+.day-header.dark-mode {
+    background-color: #444;
+    color: #FFF;
+}
+.day.dark-mode {
+    background-color: #333;
+}

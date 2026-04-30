@@ -1,86 +1,106 @@
 <!DOCTYPE html>
 <html>
-	<head>
-    	<title>Event Calendar</title>
-    	<link rel="stylesheet" href="styles.css" />
-    	<meta charset="utf-8"/>
-		<link rel="icon" type="image/x-icon" href="/7.png">
-		<script src="JavaScript/Calendar.js"></script>
-    	<script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
-    	<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
-	</head>
-  	
-	<body>
-		<img src="7.png"></img>
-		<h1>Event Calendar</h1>
-    	<!--Authorise and Sign Out Buttons-->
-		<div id="button_div">
-			<button id="authorise_button" onclick="handleAuthClick()">Authorise Login</button>
-			<button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
-			<button id="darkModeButton" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-			<button id="darkModeButton" onclick="importEvent()">Upload Calendar Json File</button>
-			<input type="file" id="jsonFileInput" accept=".json" style="display:none" />
-		</div>
 
-    	<pre id="content" style="white-space: pre-wrap;"></pre>
+<head>
+	<title>Event Calendar</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!--StyleSheets-->
+	<link rel="stylesheet" href="StyleSheet/styles.css"/>
+	<link rel="stylesheet" href="StyleSheet/stylesDark.css"/>
 	
-		<!--Event Box-->
-		<div id="eventBox">
-			<div class="event" id="box0">
-				<h2>Upcoming Event</h2>
-				<p id="event0Title"></p>
-				<p id="event0Duration"></p>
-				<p id="event0Start"></p>
-				<p id="event0End"></p>
-				<button id="export" onclick="exportEvent(0)">Export Event</button>
-			</div>
+	<!--Favicon Icon-->
+	<link rel="icon" type="image/x-icon" href="/7.png">
 
-			<div class="event" id="box1">
-				<h2>Upcoming Event</h2>
-				<p id="event1Title"></p>
-				<p id="event1Duration"></p>
-				<p id="event1Start"></p>
-				<p id="event1End"></p>
-				<button id="export" class="export" onclick="exportEvent(1)">Export Event</button>
-			</div>
+	<!--JavaScript-->
+	<script src="JavaScript/Calendar.js"></script>
+	<!--Google API used by JavaScript-->
+	<script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+	<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+</head>
+  	
+<body>
+	<img src="7.png"></img>
+	<h1>Event Calendar</h1>
+	<!--Menu Buttons For Basic Navigation Settings-->
+	<div id="button_div">
+		<button id="authorise_button" onclick="handleAuthClick()">Authorise Login</button>
+		<button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+		<button id="darkModeButton" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+		<button id="darkModeButton" onclick="importEvent()">Upload Calendar Json File</button>
+		<input type="file" id="jsonFileInput" accept=".json" style="display:none" />
+	</div>
 
-			<div class="event" id="box2">
-				<h2>Upcoming Event</h2>
-				<p id="event2Title"></p>
-				<p id="event2Duration"></p>
-				<p id="event2Start"></p>
-				<p id="event2End"></p>
-				<button id="export" onclick="exportEvent(2)">Export Event</button>
+    <pre id="content" style="white-space: pre-wrap;"></pre>
+	
+	<!--The 3 Event Boxes-->
+	<div id="eventBox">
+		<div class="event" id="box0">
+			<h2>Upcoming Event</h2>
+			<p id="event0Title"></p>
+			<p id="event0Duration"></p>
+			<p id="event0Start"></p>
+			<p id="event0End"></p>
+			<button id="export" onclick="exportEvent(0)">Export Event</button>
+		</div>
+
+		<div class="event" id="box1">
+			<h2>Upcoming Event</h2>
+			<p id="event1Title"></p>
+			<p id="event1Duration"></p>
+			<p id="event1Start"></p>
+			<p id="event1End"></p>
+			<button id="export" onclick="exportEvent(1)">Export Event</button>
+		</div>
+
+		<div class="event" id="box2">
+			<h2>Upcoming Event</h2>
+			<p id="event2Title"></p>
+			<p id="event2Duration"></p>
+			<p id="event2Start"></p>
+			<p id="event2End"></p>
+			<button id="export" onclick="exportEvent(2)">Export Event</button>
+		</div>
+	</div>
+
+	<hr>
+
+	<!--Popup with more info - Calendar uses this with the blue boxes-->
+	<div id="popup" class="popup">
+		<div class="popup-content">
+			<span class="close" onclick="hidePopup()">&times;</span>
+			<div class="eventPopup">
+				<!--Infomation within popup here-->
+				<h1>Event Information</h1>
+				<p id="popupTitle"></p>
+				<p id="popupDuration"></p>
+				<p id="popupStart"></p>
+				<p id="popupEnd"></p>
 			</div>
 		</div>
-		<hr>
+	</div>
 
-		<div id="popup" class="popup">
-        	<div class="popup-content">
-            	<span class="close" onclick="hidePopup()">&times;</span>
-            	<div class="eventPopup">
-					<h1>Event Information</h1>
-					<p id="popupTitle"></p>
-					<p id="popupDuration"></p>
-					<p id="popupStart"></p>
-					<p id="popupEnd"></p>
-            	</div>
-        	</div>
-    	</div>
 
+	<!--Calendar Starts here-->
 	<h2 id="date"></h2>
+	
+	<!--Navigation buttons-->
 	<div id="button_div">
 		<button id="darkModeButton" onclick="buttonDate(0)">←</button>
 		<button id="darkModeButton" onclick="buttonDate(1)">→</button>
 	</div>
+
+	<!--Javascript builds for this div-->
 	<div class="calendar" id="calendar"></div>
 	
+	<!--Button to export all events - Below Calendar-->
 	<button id="darkModeButton" onclick="exportEvent(-1)">Export All Events</button> <!-- -1 means all -->
+</body>
 
-	<br><br><br><br><br><br><br><br><br><br>
-	</body>
-	<header>
-	</header>
-
+<footer>
+	<br><br><br><br><br><br><br><br><br><br> <!--Whitespace to separate from the footer-->
+	<p>Event Calendar</p>
+</footer>
 
 </html>
